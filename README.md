@@ -100,4 +100,4 @@ Requires: Quarto >= 1.4, XeLaTeX (for PDF), Arial font installed.
 
 ## License
 
-Private by default. Set your own license before publishing.
+[MIT](LICENSE)
