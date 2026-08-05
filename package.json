@@ -10,6 +10,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext .ts,.tsx",
+    "lint:report": "python tools/report-check.py REPORT.md chapters/*.qmd --strict",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
