@@ -28,9 +28,19 @@ from pathlib import Path
 # Hype, filler, self-narrating prose. Each branch is anchored to avoid
 # swallowing legitimate uses. See docs/writing-guidelines.md for rationale.
 ANTI_STYLE = (
+    # Hype / marketing-speak
     r'\b(groundbreaking|revolutionary|cutting-edge|game-chang\w+|seamless\w*|'
     r'leverag\w+|delve|robust|state-of-the-art|unprecedented|transformative|'
-    r'vital|crucial|paramount|it is important to note|it is worth noting|'
+    r'next-generation|paradigm shift|world-class|best-in-class|'
+    # AI-tells
+    r"in today'?s fast-paced world|stands as a testament|"
+    r'plays a (?:pivotal|crucial) role|navigate the landscape|'
+    r'in the realm of|harness the power|'
+    # Empty intensifiers
+    r'vital|crucial|paramount|significantly|dramatically|vastly|'
+    # Announcement instead of statement
+    r'it is important to note|it is worth noting|'
+    r'it could be argued that|'
     # Self-narrating: "this chapter/section <verb>s" at sentence start
     r'(?:^|(?<=[.:;]\s))[Tt]his (?:chapter|section) '
     r'(?:states|reads|profiles|enumerates|compares|reports|sets out|'
