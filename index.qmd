@@ -1,0 +1,6 @@
+# Executive Summary {.unnumbered}
+
+::: {.callout-note}
+This section summarizes the study's key findings, methodology, and
+recommendations once primary data collection and analysis are complete.
+:::

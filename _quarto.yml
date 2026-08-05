@@ -1,0 +1,48 @@
+project:
+  type: book
+  output-dir: _output
+
+book:
+  output-file: "{{STUDY_SLUG}}"
+  title: "{{STUDY_TITLE}}"
+  subtitle: "{{STUDY_SUBTITLE}}"
+  author:
+    - name: "{{AUTHOR_1}}"
+    - name: "{{AUTHOR_2}}"
+  date: last-modified
+  date-format: "D MMMM YYYY"
+  chapters:
+    - index.qmd
+    - chapters/introduction.qmd
+    - chapters/market-landscape.qmd
+    - chapters/target-market-segments.qmd
+    - chapters/market-opportunity-assessment.qmd
+    - chapters/competitive-landscape.qmd
+    - chapters/prior-research.qmd
+    - chapters/methodology.qmd
+    - chapters/findings.qmd
+    - chapters/viability.qmd
+    - chapters/conclusions.qmd
+    - references.qmd
+
+format:
+  docx:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+  pdf:
+    documentclass: scrreprt
+    pdf-engine: xelatex
+    mainfont: Arial
+    sansfont: Arial
+    monofont: Consolas
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    papersize: a4
+    geometry:
+      - margin=1in
+    colorlinks: true
+    fig-pos: "H"
+    keep-tex: true
+    include-in-header: preamble.tex
