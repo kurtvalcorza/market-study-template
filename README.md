@@ -64,6 +64,8 @@ Replace these across the repo before your first commit:
 
 ## Workflow
 
+Uses [GitHub Spec Kit](https://github.com/github/spec-kit) for spec-driven development.
+
 The Spec Kit sequence for a typical study:
 
 1. **Constitution** — decision rights, complexity stop-rule, governance
