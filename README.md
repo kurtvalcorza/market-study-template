@@ -29,7 +29,7 @@ Find-and-replace these `{{PLACEHOLDER}}` values across the repo:
 
 | Placeholder | Files | What to put |
 |-------------|-------|-------------|
-| `{{STUDY_SLUG}}` | package.json, _quarto.yml | Your repo/project name, e.g. `dimer-demand-study` |
+| `{{STUDY_SLUG}}` | package.json, _quarto.yml | Your repo/project name, e.g. `product-demand-study` |
 | `{{STUDY_TITLE}}` | package.json, REPORT.md, _quarto.yml | Full study title |
 | `{{STUDY_SUBTITLE}}` | REPORT.md, _quarto.yml | Subtitle or scope line |
 | `{{AUTHOR_1}}` | _quarto.yml | Lead institution or author |
