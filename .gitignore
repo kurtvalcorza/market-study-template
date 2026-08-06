@@ -55,3 +55,6 @@ yarn-error.log*
 
 # Raw data (kept locally, not committed)
 analysis/outputs/raw/
+
+__pycache__/
+*.pyc
