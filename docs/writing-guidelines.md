@@ -115,6 +115,85 @@ The report should not describe its own structure except in a designated
 
 ---
 
+## No Internal Machinery in Reader-Facing Prose
+
+**Write the substance, not the authority for it.**
+
+The report is the public deliverable. How the study governs itself — which internal
+artifact authorised a decision, where that authorisation is filed, which requirement or
+task it came from — is traceability metadata. It belongs in the records that carry it,
+never in the report.
+
+A methodological commitment should read as the study's own reasoning, because that is
+the form a reviewer can check. Citing the internal artifact that authorised it gives a
+reviewer nothing to check and reads as bureaucracy.
+
+### Never in REPORT.md, the chapters, or the generated analysis outputs
+
+| Category | Examples |
+| :--- | :--- |
+| Constitution principle citations | `(Constitution IV)`, `per Constitution XII` |
+| The constitution or its Research Contract, as a named artifact | "transcribed from the constitution's Research Contract" |
+| Spec Kit identifiers | `FR-201`, `SC-704`, `T012`, `DEC-001`, `DEV-001` |
+| Spec references | `spec 005`, `specs/007-report-completion`, `tasks.md` |
+| Internal role jargon | `study owner`, `study-owner` |
+| Repository paths | `docs/sampling-plan.md`, `evidence/viability-thresholds.json`, `instrument/lib/derivation.ts` |
+| Issue references | `#166` |
+| The report file itself | `REPORT.md` |
+
+### Rewrites
+
+| Instead of | Write |
+| :--- | :--- |
+| "Recruitment provenance is not a respondent construct (Constitution IV)." | "Recruitment provenance is not a respondent construct. No analysis groups respondents by a label the respondent supplied." |
+| "Transcribed from the constitution's Research Contract, approved by the study owner on 5 August 2026 (`docs/decision-log.md`, DEC-001)." | Nothing. State the research questions. |
+| "The sampling plan is specified in full in `docs/sampling-plan.md`." | "…set out in full in the accompanying sampling and recruitment plan." |
+| "Thresholds are frozen in `evidence/viability-thresholds.json` at version 1.0.0." | "Thresholds are frozen in an accompanying machine-readable ledger at version 1.0.0." |
+| "**Study-owner thresholds** are normative choices." | "**Study-defined thresholds** are normative choices." |
+| "This is a study-owner decision recorded in the decision log." | "This is a decision of the study team, recorded and dated before collection." |
+| "Both are reported separately (Constitution VI)." | "Both are reported separately. No composite of the two is computed anywhere." |
+
+### Three things this rule does not remove
+
+**Dated approvals and version freezes stay.** "The frame was approved on 2 August 2026
+against those five artifacts" is a reproducibility statement and a reviewer needs it.
+Drop the internal role label and the file path, keep the fact and the date.
+
+**Companion artifacts may be referenced, by description.** The sampling plan, the
+threshold ledger, and the governance record are deliverables a reviewer should be able
+to request. Name them as accompanying documents, not as repository paths — where the
+study happens to be stored is an implementation detail.
+
+**Published tooling may be cited as a source.** Naming the instrument's published
+source, an audit tool, or an analysis pipeline in a provenance disclosure is a citation,
+of the same kind as naming your statistical software. Cite it with a reference number
+like any other source.
+
+### Words that look like violations and are not
+
+The checker is deliberately narrow, because three legitimate usages sit close to the
+banned pattern:
+
+- "the **constitutional** auditor" — the Commission on Audit
+- "**Constitutional** Commissions" — a class of Philippine government body
+- "a **constitutional** body, the Judiciary, or the Legislature" — a frame category
+
+`Constitution` followed by a roman numeral is always a principle citation.
+`Constitutional` followed by anything else is ordinary English. If a legitimate phrase
+does trip the check, widen the exemption rather than rewording sound prose.
+
+### Where this material does belong
+
+| Content | Home |
+| :--- | :--- |
+| Principle statements and the research contract | the constitution |
+| Owner decisions, protocol deviations | the decision log |
+| Requirement and task identifiers | the relevant spec |
+| Predecessor artifact dispositions | the migration register |
+| Report-to-instrument traceability | the concordance record |
+
+---
+
 ## Pre-Publication Checklist
 
 Before declaring a draft done:
@@ -126,18 +205,50 @@ Before declaring a draft done:
 5. Will the claims still be accurate if the study timeline extends?
 6. Are inference limits stated alongside every finding?
 7. Does every claim map to a measurement, a sample, and a boundary?
+8. Does any sentence cite an internal artifact instead of making its own case?
 
 ---
 
 ## Enforcement
 
-Run the anti-style checker:
-
 ```bash
 npm run lint:report
-# or directly:
-python tools/report-check.py REPORT.md chapters/*.qmd --strict
 ```
 
-Any match in report prose (outside citation lines and HTML comments)
-fails the build with `--strict`.
+`tools/report-check.py` runs four checks over REPORT.md, `index.qmd`,
+`references.qmd`, the Quarto chapters, the generated analysis outputs, and the sampling
+plan:
+
+| Check | Catches |
+| :--- | :--- |
+| Anti-style sweep | Hype, AI-tells, empty intensifiers, self-narration |
+| Heading hierarchy | A skipped level, such as h2 followed by h4 |
+| Internal machinery | Governance and process references in reader-facing prose |
+| Citation integrity | Dangling `[n]` citations with no matching entry in references.qmd |
+
+Any match fails the build with `--strict`. Citation lines and HTML comments are
+excluded from the anti-style sweep, so quoted material does not trip it.
+
+**The generated analysis outputs are checked too.** Those files are pasted into the
+findings chapter as they are, so prose written inside an analysis module is report prose
+and is held to the same standard.
+
+### Exemptions
+
+Two, both narrow, and each because the check would otherwise contradict the document's
+purpose:
+
+| Exempt | From | Why |
+| :--- | :--- | :--- |
+| `.specify/`, `docs/`, `specs/`, `tools/` | Internal-machinery check | These are the governance layer. They exist to carry principle citations, identifiers, and paths |
+| `references.qmd` | Internal-machinery check | A bibliography legitimately contains URL path segments and the names of cited tools |
+| `docs/writing-guidelines.md` | Anti-style sweep | This file has to quote the banned vocabulary in order to ban it |
+
+Every exemption is partial. The writing guide is still checked for heading hierarchy
+and internal machinery; the governance documents are still swept for hype and
+AI-tells. A checker that fails on its own rulebook, or on the constitution it enforces,
+teaches people to ignore it — so the exemptions exist, and they are kept as tight as
+possible.
+
+If a legitimate phrase trips a check, widen the exemption. Do not reword sound prose to
+satisfy a pattern that was too broad.
