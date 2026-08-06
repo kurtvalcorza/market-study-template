@@ -1,0 +1,115 @@
+/*-- scss:defaults --*/
+
+// Palette lifted from Sphinx's `classic` theme -- the one docs.python.org has
+// used, in some form, since the 2.x manuals. Named here rather than inlined so
+// the rules block below reads as intent instead of hex.
+$sphinx-navy:      #133f52;   // relbar, the dark band above and below the body
+$sphinx-head:      #20435c;   // headings
+$sphinx-link:      #355f7c;   // body links
+$sphinx-sidebar:   #f2f2f2;   // sidebar fill
+$sphinx-rule:      #b1b4b6;   // the hairline under h1/h2
+$sphinx-code-bg:   #eeffcc;   // literal blocks -- the pale green is the tell
+$sphinx-code-brd:  #ac9;
+$sphinx-inline-bg: #ecf0f3;   // inline ``literals``
+
+// Sphinx sets body text in a sans stack and headings in Trebuchet. Keeping the
+// system fallbacks means no webfont fetch, which also keeps the rendered book
+// working offline.
+$font-family-sans-serif: sans-serif, Arial, Helvetica !default;
+$headings-font-family:   "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif !default;
+
+$body-color:        #000;
+$link-color:        $sphinx-link;
+$link-hover-color:  darken($sphinx-link, 12%);
+
+// Sphinx runs a noticeably narrower measure than Bootstrap's default. That is
+// most of why its pages read as documentation rather than as a web app.
+$font-size-root: 15px;
+
+/*-- scss:rules --*/
+
+body {
+  // Sphinx's own line-height. Bootstrap's 1.5 is looser and loses the density
+  // that makes a long reference document scannable.
+  line-height: 1.4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $sphinx-head;
+  font-weight: normal;   // Sphinx headings are NOT bold -- weight comes from size
+}
+
+// The hairline rule under the top two levels. Sphinx marks h1 and h2 this way
+// and leaves h3 and below bare, which is what gives a page its visible spine.
+h1 { border-bottom: 1px solid $sphinx-rule; padding-bottom: .2em; }
+h2 { border-bottom: 1px solid lighten($sphinx-rule, 12%); padding-bottom: .15em; }
+
+// Left navigation = Sphinx's document tree.
+.sidebar-navigation, #quarto-sidebar {
+  background-color: $sphinx-sidebar;
+  font-size: .92em;
+}
+
+// Right-hand page contents = Sphinx's "On this page".
+#quarto-margin-sidebar {
+  font-size: .88em;
+  .sidebar-item-text { color: $sphinx-link; }
+}
+
+// Literal blocks. The pale-green fill with a thin olive border is the single
+// most recognisable element of a Sphinx page.
+pre, div.sourceCode {
+  background-color: $sphinx-code-bg !important;
+  border: 1px solid $sphinx-code-brd;
+  border-radius: 0;            // Sphinx has square corners; rounding reads as Bootstrap
+  padding: .5em .7em;
+}
+
+code:not(pre code) {
+  background-color: $sphinx-inline-bg;
+  color: #222;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0 .2em;
+  font-size: .95em;
+}
+
+// Tables: Sphinx rules the header and the outer edges only, no vertical lines
+// and no zebra fill. The report carries 11 of them, so this is load-bearing for
+// the look rather than a detail.
+table {
+  border-collapse: collapse;
+  th, td { border: none; padding: .4em .7em; }
+  thead th {
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    background: transparent;
+    font-weight: bold;
+    text-align: left;
+  }
+  tbody tr:last-child td { border-bottom: 1px solid #888; }
+}
+
+// Callouts styled as Sphinx admonitions: a heavy left rule, tinted fill,
+// square corners.
+.callout {
+  border-radius: 0;
+  border-left-width: 4px;
+  background-color: #ffe;
+}
+
+// The navy band. Quarto's navbar is the closest structural match to Sphinx's
+// relbar, so it takes the same fill.
+.navbar {
+  background-color: $sphinx-navy !important;
+  .navbar-brand, .nav-link, .navbar-title { color: #fff !important; }
+}
+
+// Figures: Sphinx centres them and sets the caption small and grey.
+figure { margin: 1.2em auto; text-align: center; }
+figcaption, .figure-caption {
+  font-size: .88em;
+  color: #444;
+  text-align: center;
+  font-style: italic;
+}

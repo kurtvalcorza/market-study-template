@@ -1,0 +1,64 @@
+title: IEEE
+author: Market Study Template
+version: 1.0.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    pdf:
+      # --- class ---------------------------------------------------------
+      # IEEEphot.cls is NOT on CTAN. IEEE distributes it only inside the
+      # Photonics Journal author kit, so `tlmgr install` cannot fetch it and
+      # this format cannot default to it. IEEEtran is the installable stand-in
+      # and is the class IEEEphot itself derives its conventions from.
+      #
+      # TO SWITCH TO IEEEphot: drop IEEEphot.cls beside _quarto.yml, then
+      # change these two keys only --
+      #     documentclass: IEEEphot
+      #     classoption: []            # IEEEphot takes no options
+      # Nothing else in this extension is IEEEtran-specific.
+      documentclass: IEEEtran
+      classoption:
+        # onecolumn, because IEEEphot sets a single-column page -- that is why
+        # the source template's figures are 30pc/21pc in a plain `figure` and
+        # never `figure*`. It also keeps the 23-platform comparison table and
+        # the other 10 longtables from being crushed into a 3.5in column.
+        - journal
+        - onecolumn
+        - a4paper
+
+      # --- sectioning ----------------------------------------------------
+      # THE LOAD-BEARING SETTING. The book project emits 13 \chapter commands;
+      # IEEEtran is an article class and defines none, so the render dies at the
+      # first one with "Undefined control sequence". Demoting the top level maps
+      # #->\section, ##->\subsection, ###->\subsubsection, which is exactly the
+      # four-level hierarchy the IEEE template uses.
+      top-level-division: section
+
+      # Chapter-scoped numbering (Figure 7.1) is meaningless without chapters.
+      crossref:
+        chapters: false
+
+      toc: true
+      toc-depth: 2
+      number-sections: true
+      # pdflatex, NOT the xelatex the KOMA build uses. IEEEtran sets Times via
+      # the Type 1 ptm metrics; under xelatex that resolves through fontspec's TU
+      # encoding and dies with "finding package for tuptm.fd -- no matching
+      # packages". pdflatex is also what IEEE's own author kits assume, so the
+      # output is closer to a real submission. Cost: the unicode glyph
+      # declarations in ieee-preamble.tex now actually fire (they are guarded by
+      # \ifPDFTeX and are inert in the xelatex build).
+      pdf-engine: pdflatex
+      colorlinks: true
+      fig-pos: "H"
+      keep-tex: true
+
+      # NOT preamble.tex. That file patches KOMA's \@subtitle and \maketitle to
+      # stack the institution block, and defines nothing IEEEtran understands --
+      # loading it here is an immediate error, not a cosmetic mismatch.
+      include-in-header: ieee-preamble.tex
+
+      template-partials:
+        - doc-class.tex
+        - title.tex
+

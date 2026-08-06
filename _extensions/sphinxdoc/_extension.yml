@@ -1,0 +1,73 @@
+title: Sphinx (Python manual)
+author: Market Study Template
+version: 1.0.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+
+    # ---- PDF: the Python Language Reference look -------------------------
+    pdf:
+      # sphinxmanual.cls is NOT on CTAN. It ships inside the Python `sphinx`
+      # package, so it needs tools/install-sphinx-latex.ps1 run once per machine
+      # before this format will render. That script also GENERATES
+      # sphinxhighlight.sty, which sphinx.sty requires unconditionally and which
+      # Sphinx normally emits per-project from Pygments.
+      documentclass: sphinxmanual
+      # Sphinx's own defaults come from sphinx/builders/latex/theming.py:
+      #     self.papersize = 'letterpaper'
+      #     self.pointsize = '10pt'
+      # Its LaTeX builder passes exactly papersize + pointsize + language and
+      # takes everything else from the class.
+      #
+      # a4paper is the ONE deliberate departure -- a Philippine government
+      # deliverable is A4, and the DOCX and KOMA PDF are already A4.
+      #
+      # It costs nothing typographically. MEASURED: Sphinx pins \textwidth at
+      # 345pt under BOTH a4paper and letterpaper, absorbing the difference in the
+      # margins instead. So the title-block sizes derived against 345pt (see
+      # sphinx-preamble.tex and title.tex) hold unchanged across the switch.
+      # POINTSIZE is the setting that does move the measure -- 11pt gave 360pt --
+      # so re-measure if that ever changes, not if the paper does.
+      #
+      # NOT oneside/openany: sphinxmanual passes openright to its parent
+      # unconditionally and twoside unless 'oneside' is given, so omitting both
+      # produces Sphinx's two-sided, chapter-on-recto layout. That inserts a blank
+      # verso before each chapter -- the deliberate cost of matching the default.
+      classoption:
+        - a4paper
+        - 10pt
+        - english
+
+      # sphinxmanual is report-based and DEFINES \chapter, so unlike the IEEE
+      # format this one needs no top-level-division override -- the book
+      # project's 13 \chapter commands land exactly where they belong.
+
+      pdf-engine: pdflatex
+      toc: true
+      toc-depth: 2
+      number-sections: true
+      colorlinks: true
+      fig-pos: "H"
+      keep-tex: true
+      include-in-header: sphinx-preamble.tex
+      template-partials:
+        - doc-class.tex
+        - title.tex
+        # tables.tex is overridden only to drop pandoc's footnotehyper load,
+        # which collides with sphinx.sty's own fork of it. See the file.
+        - tables.tex
+
+    # ---- HTML: the docs.python.org look -----------------------------------
+    html:
+      theme:
+        - cosmo
+        - sphinxdoc.scss
+      toc: true
+      toc-depth: 3
+      number-sections: true
+      # Sphinx puts the page's own contents in the RIGHT margin and the document
+      # tree in the LEFT sidebar. Quarto's book layout does the same by default,
+      # which is most of why this look ports across at all.
+      code-copy: true
+      link-external-newwindow: true
+
